@@ -35,10 +35,7 @@ export class AppController {
   // }
   @Put('Mahasiswa/:nim')
   @ApiBody({ type: UpdateMahasiswaDTO })
-  editMahasiswa(
-    @Param('nim') nim: string,
-    @Body() data: UpdateMahasiswaDTO,
-  ) {
+  editMahasiswa(@Param('nim') nim: string, @Body() data: UpdateMahasiswaDTO) {
     return this.appService.updateMahasiswa(nim, data);
   }
 
@@ -46,8 +43,8 @@ export class AppController {
   getMahasiswa() {
     return this.appService.getMahasiswa();
   }
-  @Get('Mahasiswa/:nim')
-  getMahasiswaByNim(@Param('nim') nim: string) {
-    return this.appService.getMahasiswaByNIM(nim);
-  }
+  // @Get('Mahasiswa/:nim')
+  // getMahasiswaByNim(@Param('nim') nim: string) {
+  //   return this.appService.getMahasiswaByNIM(nim);
+  // }
 }
