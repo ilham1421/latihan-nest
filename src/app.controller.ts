@@ -12,6 +12,7 @@ import { ApiBody } from '@nestjs/swagger';
 import { CreateMahasiswaDto } from './dto/create-mahasiswa.dto';
 import { UpdateMahasiswaDTO } from './dto/update-mahasiswa.dto';
 import { get } from 'http';
+import { RegisterUserDTO } from './dto/register-user.dto';
 
 @Controller()
 export class AppController {
@@ -22,17 +23,17 @@ export class AppController {
   createMahasiswa(@Body() data: CreateMahasiswaDto) {
     return this.appService.addMahasiswa(data);
   }
+  @Post('register')
+  @ApiBody({ type: RegisterUserDTO })
+  register(@Body() data: RegisterUserDTO) {
+    return this.appService.register(data);
+  }
 
   @Delete('Mahasiswa/:nim')
   deleteMahasiswa(@Param('nim') nim: string) {
     return this.appService.deleteMahasiswa(nim);
   }
 
-  // @Put('Mahasiswa/:nim')
-  // @ApiBody({ type: UpdateMahasiswaDTO })
-  // editMahasiswa(@Body() { nama }: UpdateMahasiswaDTO) {
-  //   return this.appService.updateMahasiswa(nama);
-  // }
   @Put('Mahasiswa/:nim')
   @ApiBody({ type: UpdateMahasiswaDTO })
   editMahasiswa(@Param('nim') nim: string, @Body() data: UpdateMahasiswaDTO) {
@@ -47,4 +48,5 @@ export class AppController {
   // getMahasiswaByNim(@Param('nim') nim: string) {
   //   return this.appService.getMahasiswaByNIM(nim);
   // }
+  
 }
