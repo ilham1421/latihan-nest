@@ -8,10 +8,28 @@ import { CreateMahasiswaDto } from './dto/create-mahasiswa.dto';
 import prisma from './prisma';
 import { UpdateMahasiswaDTO } from './dto/update-mahasiswa.dto';
 import { RegisterUserDTO } from './dto/register-user.dto';
-import { hashSync } from 'bcrypt';
+import { hashSync, compareSync } from 'bcrypt';
+import { loginUserDTO } from './dto/login-user.dto';
 
 @Injectable()
 export class AppService {
+  async login(data: loginUserDTO) {
+    try {
+      const user = await prisma.user.findFirst({
+        where: {
+          username: data.username,
+        },
+      });
+      if (user == null)
+        throw new BadRequestException('Username atau Password Salah');
+      if (!compareSync(data.password, user.password))
+        throw new BadRequestException('Username atau Password Salah');
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException('ada masalah pada server');
+    }
+  }
+
   async register(data: RegisterUserDTO) {
     try {
       const user = await prisma.user.findFirst({
@@ -29,7 +47,6 @@ export class AppService {
         },
       });
       return newUser;
-      const hash = hashSync(data.password, 10);
     } catch (error) {
       throw new InternalServerErrorException('ada masalah pada server');
     }

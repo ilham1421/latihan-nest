@@ -11,8 +11,8 @@ import { AppService } from './app.service';
 import { ApiBody } from '@nestjs/swagger';
 import { CreateMahasiswaDto } from './dto/create-mahasiswa.dto';
 import { UpdateMahasiswaDTO } from './dto/update-mahasiswa.dto';
-import { get } from 'http';
 import { RegisterUserDTO } from './dto/register-user.dto';
+import { loginUserDTO } from './dto/login-user.dto';
 
 @Controller()
 export class AppController {
@@ -23,6 +23,7 @@ export class AppController {
   createMahasiswa(@Body() data: CreateMahasiswaDto) {
     return this.appService.addMahasiswa(data);
   }
+
   @Post('register')
   @ApiBody({ type: RegisterUserDTO })
   register(@Body() data: RegisterUserDTO) {
@@ -32,6 +33,12 @@ export class AppController {
   @Delete('Mahasiswa/:nim')
   deleteMahasiswa(@Param('nim') nim: string) {
     return this.appService.deleteMahasiswa(nim);
+  }
+
+  @Post('login')
+  @ApiBody({ type: loginUserDTO })
+  login(@Body() data: loginUserDTO) {
+    return this.appService.login(data);
   }
 
   @Put('Mahasiswa/:nim')
@@ -44,9 +51,9 @@ export class AppController {
   getMahasiswa() {
     return this.appService.getMahasiswa();
   }
-  // @Get('Mahasiswa/:nim')
-  // getMahasiswaByNim(@Param('nim') nim: string) {
-  //   return this.appService.getMahasiswaByNIM(nim);
-  // }
-  
+
+  @Get('Mahasiswa/:nim')
+  getMahasiswaByNim(@Param('nim') nim: string) {
+    return this.appService.getMahasiswaByNIM(nim);
+  }
 }
